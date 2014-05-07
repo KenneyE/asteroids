@@ -1,9 +1,14 @@
 (function (root) {
     //Changed the namespace
     var AST = root.Asteroids = (root.Asteroids || {});
-    var MOP = AST.MovingObject.prototype;
 
-    AST.MovingObject = function (radius, color) {
+    Function.prototype.inherits = function (SuperClass) {
+        function Surrogate() {};
+        Surrogate.prototype = SuperClass.prototype;
+        this.prototype = new Surrogate();
+    }
+
+    var MovingObject = AST.MovingObject = function (radius, color) {
         this.pos = [0, 0];
         this.vel = [0, 0];
         this.radius = radius;
@@ -13,12 +18,12 @@
         this.strokeWidth = 1;
     };
 
-    MOP.move = function () {
+    MovingObject.prototype.move = function () {
         this.pos = [this.pos[0] + this.vel[0],
                     this.pos[1] + this.vel[1]];
     };
 
-    MOP.draw = function (c) {
+    MovingObject.prototype.draw = function (c) {
         c.beginPath();
 
         c.arc(this.pos[0], this.pos[1], this.radius,
@@ -33,9 +38,11 @@
         c.stroke();
     };
 
-    MOP.isCollidedWith = function (otherObject) {
-        var distance = this.distance(this.pos, otherObject.pos);
-        return (distance <= (this.radius + otherObject.radius))
+    MovingObject.prototype.isCollidedWith = function (otherObject) {
+        var distance = AST.distance(this.pos, otherObject.pos);
+        var collideDistance = (this.radius + this.strokeWidth +
+             otherObject.radius + otherObject.strokeWidth);
+        return (distance <= collideDistance)
     };
 
     AST.distance = function (pos1, pos2) {

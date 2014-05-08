@@ -3,59 +3,93 @@
     var AST = root.Asteroids = (root.Asteroids || {});
 
     var Game = AST.Game = function (canvas) {
+        this.backgroundImage = new Image();
+        this.backgroundImage.src = 'earth.jpg';
+        var img = this.backgroundImage;
         this.canvas = canvas;
-        this.canvas.width = Asteroids.Game.DIM_X;
-        this.canvas.height = Asteroids.Game.DIM_Y;
+        this.canvas.width = 800;
+        this.canvas.height = 511;
 
         this.ctx = canvas.getContext("2d");
-        this.actors = this.addAsteroids(10);
+        this.asteroids = this.addAsteroids(10);
 
         this.ship = new AST.Ship();
-        this.ship.pos = [Game.DIM_X / 2, Game.DIM_Y / 2];
-        this.actors.push(this.ship);
+        this.ship.pos = [canvas.width / 2, canvas.height / 2];
+
+        this.bullets = [];
 
         this.timerID;
-        console.log(this.actors[0].constructor == AST.Asteroid);
 
+        // console.log(this.asteroids[0].constructor == AST.Asteroid);
     };
 
-    Game.DIM_X = 500;
-    Game.DIM_Y = 500;
+    Game.prototype.WIDTH = function () {
+        return this.canvas.width;
+    }
+
+    Game.prototype.HEIGHT = function () {
+        return this.canvas.height;
+    }
 
     Game.prototype.addAsteroids = function (numAsteroids) {
         var asteroids = [];
         for (var i = 0; i < numAsteroids; i++) {
-            asteroids.push(AST.Asteroid.randomAsteroid(500, 500));
+            console.log(this.WIDTH);
+            asteroids.push(AST.Asteroid.randomAsteroid(this.WIDTH(),
+                 this.HEIGHT()));
         }
         return asteroids;
     };
 
+    Game.prototype.fireBullet = function () {
+        if (this.ship.vel[0] !== 0 || this.ship.vel[1] !== 0) {
+            this.bullets.push(this.ship.fireBullet());
+        }
+    };
+
     Game.prototype.draw = function () {
         var gc = this.ctx;
-        gc.clearRect(0, 0, Game.DIM_X, Game.DIM_Y);
-        gc.fillStyle = "black";
-        gc.fillRect(0, 0, Game.DIM_X, Game.DIM_Y);
+        gc.clearRect(0, 0, this.WIDTH(), this.HEIGHT());
+        var img = this.backgroundImage;
+          gc.drawImage(img, 0, 0);
 
-        this.actors.forEach(function (actor) {
-            actor.draw(gc);
+        this.ship.draw(gc);
+
+        this.asteroids.forEach(function (asteroid) {
+            asteroid.draw(gc);
+        });
+
+        this.bullets.forEach(function (bullet) {
+            bullet.draw(gc);
         });
     };
 
     Game.prototype.move = function () {
-        var actors = this.actors
-        actors.forEach(function (actor) {
+        var asteroids = this.asteroids;
+        var bullets = this.bullets;
+        var game = this;
+
+        this.ship.move();
+        asteroids.forEach(function (actor) {
             actor.move();
-            if (!Game.inWindow(actor.pos)) {
-                var index = actors.indexOf(actor);
-                actors.splice(index,1);
+            if (!game.inWindow(actor.pos)) {
+                actor.outOfBounds([game.WIDTH(), game.HEIGHT()]);
+            }
+        });
+
+        bullets.forEach(function (bullet) {
+            bullet.move();
+            if (!game.inWindow(bullet.pos)) {
+                var index = bullets.indexOf(bullet);
+                bullets.splice(index,1);
             }
         });
     };
 
-    Game.inWindow = function (pos) {
-        if (pos[0] > Game.DIM_X || pos[0] < 0) {
+    Game.prototype.inWindow = function (pos) {
+        if (pos[0] > this.WIDTH() || pos[0] < 0) {
             return false;
-        } else if (pos[1] > Game.DIM_Y || pos[1] < 0) {
+        } else if (pos[1] > this.HEIGHT() || pos[1] < 0) {
             return false;
         }
         return true;
@@ -64,37 +98,50 @@
 
     Game.prototype.checkCollisions = function () {
         var ship = this.ship;
-        this.actors.forEach(function (actor) {
+        var that = this;
+        var bullets = this.bullets;
+        var asteroids = this.asteroids;
+        asteroids.forEach(function (asteroid) {
             // console.log(actor.constructor.name);
-            if (typeof actor === "Asteroid") {
-                if (ship.isCollidedWith(actor)) {
+            // if (typeof actor === "Asteroid") {
+            // }
+                if (ship.isCollidedWith(asteroid)) {
                     alert("GAME OVER!!");
-
+                    that.stop();
                 };
-            }
-        });
-    };
+                bullets.forEach(function (bullet) {
+                    if (bullet.isCollidedWith(asteroid)) {
+                        var indexOfBullet = bullets.indexOf(bullet);
+                        bullets.splice(indexOfBullet,1);
+                        var indexOfAsteroid = asteroids.indexOf(asteroid);
+                        asteroids.splice(indexOfAsteroid, 1);
+                    }
+                })
+            });
+        };
 
-    Game.prototype.step = function () {
-        this.move();
-        this.checkCollisions();
-        this.draw();
-    };
+        Game.prototype.step = function () {
+            this.move();
+            this.checkCollisions();
+            this.draw();
+        };
 
-    Game.prototype.bindKeyHandlers = function () {
-        var ship = this.ship;
-        key("a", function () { ship.power([-1,0]) });
-        key("w", function () { ship.power([0,-1]) });
-        key("d", function () { ship.power([1,0]) });
-        key("s", function () { ship.power([0,1]) });
-    }
+        Game.prototype.bindKeyHandlers = function () {
+            var ship = this.ship;
+            var game = this;
+            key("a", function () { ship.power([-1,0]) });
+            key("w", function () { ship.power([0,-1]) });
+            key("d", function () { ship.power([1,0]) });
+            key("s", function () { ship.power([0,1]) });
+            key("space", function () { game.fireBullet() });
+        }
 
-    Game.prototype.start = function () {
-        this.timerID = window.setInterval(this.step.bind(this), 30);
-        this.bindKeyHandlers();
-    };
+        Game.prototype.start = function () {
+            this.timerID = window.setInterval(this.step.bind(this), 30);
+            this.bindKeyHandlers();
+        };
 
-    Game.prototype.stop = function () {
-        window.clearInteval(this.timerID);
-    }
-})(this);
+        Game.prototype.stop = function () {
+            window.clearInterval(this.timerID);
+        }
+    })(this);

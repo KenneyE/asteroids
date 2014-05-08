@@ -10,11 +10,13 @@
     Asteroid.inherits(AST.MovingObject);
     Asteroid.COLOR = 'red';
     Asteroid.RADIUS = 10;
+    Asteroid.MAX_SPEED = 10
 
     Asteroid.randomAsteroid = function (dimX, dimY) {
         var randomAsteroid = new Asteroid();
         randomAsteroid.pos = [Math.random() * dimX, Math.random() * dimY];
-        randomAsteroid.vel = [Math.random() * 5 - 2.5, Math.random() * 5 - 2.5];
+        randomAsteroid.vel = [Math.random() * Asteroid.MAX_SPEED - Asteroid.MAX_SPEED/2,
+                             Math.random() * Asteroid.MAX_SPEED - Asteroid.MAX_SPEED/2];
         return randomAsteroid;
     }
 

@@ -4,7 +4,7 @@
 
   var Game = AST.Game = function (canvas) {
     this.backgroundImage = new Image();
-    this.backgroundImage.src = 'Asteroids/earth.jpg';
+    this.backgroundImage.src = 'asteroids/earth.jpg';
     var img = this.backgroundImage;
     this.canvas = canvas;
     this.canvas.width = 800;

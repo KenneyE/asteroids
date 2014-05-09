@@ -1,8 +1,17 @@
 #count-frame {
     font-family: sans-serif;
+    position: absolute;
+    top: 15px;
+    color: white;
+    font-size: 30px;
 }
 
 #count-frame * {
     float: left;
     margin: 5px;
+}
+
+
+body {
+    background-color: #003;
 }

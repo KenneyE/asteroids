@@ -15,17 +15,19 @@
 
 </head>
 <body>
-    <canvas width="1" height="1"></canvas>
-    <script>
-    var canvas = document.getElementsByTagName("canvas")[0];
-    var game = new Asteroids.Game(canvas);
-    game.start();
-    </script>
+    <div id="container">
+        <canvas width="1" height="1"></canvas>
+        <script>
+        var canvas = document.getElementsByTagName("canvas")[0];
+        var game = new Asteroids.Game(canvas);
+        game.start();
+        </script>
 
-    <div id="count-frame">
-        <div id="asteroid-count"></div>
-        <div id="win-count"></div>
-        <div id="loss-count"></div>
+        <div id="count-frame">
+            <div id="asteroid-count"></div>
+            <div id="win-count"></div>
+            <div id="loss-count"></div>
+        </div>
     </div>
 </body>
 </html>

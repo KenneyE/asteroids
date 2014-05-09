@@ -8,8 +8,9 @@
         // var img = this.backgroundImage;
 
         this.canvas = canvas;
-        this.canvas.width = 800;
-        this.canvas.height = 511;
+        this.canvas.width = window.innerWidth;
+        this.canvas.height = window.innerHeight;
+        this.canvas.margin = "auto";
 
         this.ctx = canvas.getContext("2d");
         this.asteroids = this.addAsteroids(10);
@@ -51,8 +52,8 @@
     Game.prototype.draw = function () {
         var gc = this.ctx;
         gc.clearRect(0, 0, this.WIDTH(), this.HEIGHT());
-        var img = this.backgroundImage;
-        gc.drawImage(img, 0, 0);
+        // var img = this.backgroundImage;
+        // gc.drawImage(img, 0, 0);
 
         this.ship.draw(gc);
 
@@ -107,7 +108,7 @@
             // if (typeof actor === "Asteroid") {
                 // }
                 if (ship.isCollidedWith(asteroid)) {
-                    alert("GAME OVER!!");
+                    // alert("GAME OVER!!");
                     this.lossCount += 1;
                     that.stop();
                 };
@@ -126,7 +127,7 @@
     Game.prototype.checkGameOver = function () {
         var game = this;
         if (game.asteroids.length === 0) {
-            alert("You Won!!");
+            // alert("You Won!!");
             this.winCount += 1;
             game.stop();
         }

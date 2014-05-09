@@ -1,22 +1,21 @@
 (function (root) {
-    //Changed the namespace
     var AST = root.Asteroids = (root.Asteroids || {});
 
 
     var Asteroid = AST.Asteroid = function () {
-        AST.MovingObject.call(this, Asteroid.RADIUS,
-            Asteroid.COLOR);
+        AST.MovingObject.call(this, Asteroid.RADIUS, Asteroid.COLOR);
     };
+
     Asteroid.inherits(AST.MovingObject);
     Asteroid.COLOR = 'red';
     Asteroid.RADIUS = 10;
-    Asteroid.MAX_SPEED = 10
+    Asteroid.MAX_SPEED = 10;
 
     Asteroid.randomAsteroid = function (dimX, dimY) {
         var randomAsteroid = new Asteroid();
         randomAsteroid.pos = [Math.random() * dimX, Math.random() * dimY];
         randomAsteroid.vel = [Math.random() * Asteroid.MAX_SPEED - Asteroid.MAX_SPEED/2,
-                             Math.random() * Asteroid.MAX_SPEED - Asteroid.MAX_SPEED/2];
+        Math.random() * Asteroid.MAX_SPEED - Asteroid.MAX_SPEED/2];
         return randomAsteroid;
     }
 

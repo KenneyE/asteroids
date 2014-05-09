@@ -1,22 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Space Adventure</title>
+    <title>Space Adventure</title>
+
+    <script src="jquery.js"></script>
+    <script src="moving_object.js"></script>
+    <script src="asteroid.js"></script>
+    <script src="game.js"></script>
+    <script src="ship.js"></script>
+    <script src="bullets.js"></script>
+    <script src="ColorPalette.js"></script>
+    <script src="keymaster.js"></script>
+    <link rel="stylesheet" type="text/css" href="asteroids.css">
+
 </head>
 <body>
-  <canvas width="1" height="1"></canvas>
-  <script src="moving_object.js"></script>
-  <script src="asteroid.js"></script>
-  <script src="game.js"></script>
-  <script src="ship.js"></script>
-  <script src="bullets.js"></script>
-  <script src="ColorPalette.js"></script>
-  <script src="keymaster.js"></script>
+    <canvas width="1" height="1"></canvas>
+    <script>
+    var canvas = document.getElementsByTagName("canvas")[0];
+    var game = new Asteroids.Game(canvas);
+    game.start();
+    </script>
 
-  <script>
-  var canvas = document.getElementsByTagName("canvas")[0];
-  var game = new Asteroids.Game(canvas);
-  game.start();
-  </script>
+    <div id="count-frame">
+        <div id="asteroid-count"></div>
+        <div id="win-count"></div>
+        <div id="loss-count"></div>
+    </div>
 </body>
 </html>

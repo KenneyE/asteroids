@@ -1,0 +1,8 @@
+#count-frame {
+    font-family: sans-serif;
+}
+
+#count-frame * {
+    float: left;
+    margin: 5px;
+}

@@ -3,7 +3,8 @@
   var AST = root.Asteroids = (root.Asteroids || {});
 
   var Ship = AST.Ship = function () {
-    AST.MovingObject.call(this, Ship.RADIUS, Ship.COLOR);
+      var radius = 10;
+    AST.MovingObject.call(this, radius, Ship.COLOR);
   };
   Ship.inherits(AST.MovingObject);
 
@@ -14,8 +15,7 @@
   };
 
   Ship.BULLET_SPEED = 10;
-  Ship.MAX_SPEED = 10;
-  Ship.RADIUS = 10;
+  Ship.MAX_SPEED = 8;
   Ship.COLOR = "blue";
 
   Ship.prototype.fireBullet = function () {

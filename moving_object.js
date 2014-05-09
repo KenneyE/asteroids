@@ -30,12 +30,20 @@
             0, 2 * Math.PI, false);
 
         c.fillStyle = this.color;
+
+
+
         c.fill();
 
-        //I added this.
+
         c.lineWidth = this.strokeWidth;
         c.strokeStyle = this.strokeColor;
         c.stroke();
+
+        c.shadowColor = 'black';
+        c.shadowBlur = 2;
+
+
     };
 
     MovingObject.prototype.isCollidedWith = function (otherObject) {

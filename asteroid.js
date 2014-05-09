@@ -3,17 +3,17 @@
 
 
     var Asteroid = AST.Asteroid = function () {
-        AST.MovingObject.call(this, Asteroid.RADIUS, Asteroid.COLOR);
+        var radius = Math.floor(Math.random() * 20 + 15)
+        AST.MovingObject.call(this, radius, Asteroid.COLOR);
     };
 
     Asteroid.inherits(AST.MovingObject);
     Asteroid.COLOR = 'red';
-    Asteroid.RADIUS = 10;
     Asteroid.MAX_SPEED = 10;
 
     Asteroid.randomAsteroid = function (dimX, dimY) {
         var randomAsteroid = new Asteroid();
-        randomAsteroid.pos = [Math.random() * dimX, Math.random() * dimY];
+        randomAsteroid.pos = [Math.random() * dimX / 2 - (dimX/4)  , Math.random() * dimY];
         randomAsteroid.vel = [Math.random() * Asteroid.MAX_SPEED - Asteroid.MAX_SPEED/2,
         Math.random() * Asteroid.MAX_SPEED - Asteroid.MAX_SPEED/2];
         return randomAsteroid;

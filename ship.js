@@ -4,7 +4,7 @@
 
   var Ship = AST.Ship = function () {
       var radius = 10;
-    AST.MovingObject.call(this, radius, Ship.COLOR);
+      AST.MovingObject.call(this, radius, Ship.COLOR);
   };
   Ship.inherits(AST.MovingObject);
 
@@ -38,6 +38,10 @@
 
   var getSpeed = function (vel) {
     return Math.sqrt(vel[0] * vel[0] + vel[1] * vel[1])
-  }
+  };
+
+  Ship.prototype.increaseRadius = function () {
+      this.radius += 1
+  };
 
 })(this);

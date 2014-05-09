@@ -18,6 +18,7 @@
         this.lossCount = 0;
         this.winCount = 0;
         this.setupGame();
+        this.isPaused = false;
     };
 
     Game.prototype.WIDTH = function () {
@@ -32,11 +33,12 @@
         this.asteroids = this.addAsteroids(10);
 
         this.ship.pos = [canvas.width / 2, canvas.height / 2];
-
+        this.ship.vel = [0, 0];
         this.bullets = [];
 
         this.timerID;
         this.destroyedAsteroids = 0;
+
     };
 
     Game.prototype.addAsteroids = function (numAsteroids) {
@@ -117,6 +119,7 @@
                     var indexOfAsteroid = asteroids.indexOf(asteroid);
                     asteroids.splice(indexOfAsteroid, 1);
                     game.destroyedAsteroids += 1;
+                    ship.increaseRadius();
                 }
             })
             if (ship.isCollidedWith(asteroid)) {
@@ -169,9 +172,7 @@
         if(key.isPressed("d")) ship.power([acceleration,0]);
         if(key.isPressed("s")) ship.power([0,acceleration]);
         if(key.isPressed("space")) game.fireBullet();
-        if(key.isPressed("p")) game.stop();
-
-
+        key("p", game.stop.bind(this));
     }
 
     Game.prototype.start = function () {
@@ -180,6 +181,11 @@
     };
 
     Game.prototype.stop = function () {
-        window.clearInterval(this.timerID);
+        if(!this.paused) {
+            window.clearInterval(this.timerID);
+        } else {
+            this.timerID = window.setInterval(this.step.bind(this), 30);
+        }
+        this.paused = !this.paused;
     }
 })(this);

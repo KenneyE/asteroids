@@ -37,7 +37,7 @@
         this.ship.vel = [0, 0];
         this.bullets = [];
 
-        this.timerID;
+        this.timerID = null;
         this.destroyedAsteroids = 0;
     };
 
@@ -167,6 +167,7 @@
     };
 
     Game.prototype.restartGame = function () {
+        window.clearInterval(this.timerID);
         this.setupGame();
         this.start();
     };
@@ -197,9 +198,7 @@
         if(key.isPressed("space")) game.fireBullet();
 
 
-        game.stars.forEach ( function (star) {
-            star.setSpeed(ship.vel);
-        });
+        game.stars.forEach ( function (star) { star.setSpeed(ship.vel); });
 
         key("p", game.stop.bind(this));
     }
@@ -212,6 +211,7 @@
         if(!this.paused) {
             window.clearInterval(this.timerID);
         } else {
+            window.clearInterval(this.timerID);
             this.timerID = window.setInterval(this.step.bind(this), 30);
         }
         this.paused = !this.paused;

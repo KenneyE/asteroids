@@ -1,5 +1,4 @@
 (function (root) {
-    //Changed the namespace
     var AST = root.Asteroids = (root.Asteroids || {});
 
     var Game = AST.Game = function (canvas) {
@@ -13,12 +12,10 @@
         this.canvas.margin = "auto";
 
         this.ctx = canvas.getContext("2d");
-        this.ship = new AST.Ship();
 
         this.lossCount = 0;
         this.winCount = 0;
         this.setupGame();
-        this.isPaused = false;
     };
 
     Game.prototype.WIDTH = function () {
@@ -31,14 +28,17 @@
 
     Game.prototype.setupGame = function () {
         this.asteroids = this.addAsteroids(10);
+        this.stars = this.addStars(300)
 
+        this.isPaused = false;
+
+        this.ship = new AST.Ship();
         this.ship.pos = [canvas.width / 2, canvas.height / 2];
         this.ship.vel = [0, 0];
         this.bullets = [];
 
         this.timerID;
         this.destroyedAsteroids = 0;
-
     };
 
     Game.prototype.addAsteroids = function (numAsteroids) {
@@ -48,6 +48,14 @@
             this.HEIGHT()));
         }
         return asteroids;
+    };
+
+    Game.prototype.addStars = function (numStars) {
+      var stars = [];
+      for (var i = 0; i < numStars; i++) {
+          stars.push(AST.Star.randomStar(this.WIDTH(), this.HEIGHT()));
+      }
+      return stars;
     };
 
     Game.prototype.fireBullet = function () {
@@ -62,28 +70,43 @@
         // var img = this.backgroundImage;
         // gc.drawImage(img, 0, 0);
 
-        this.ship.draw(gc);
 
         this.asteroids.forEach(function (asteroid) {
             asteroid.draw(gc);
         });
 
+        this.stars.forEach(function (star) {
+            star.draw(gc);
+        });
+
         this.bullets.forEach(function (bullet) {
             bullet.draw(gc);
         });
+
+        this.ship.draw(gc);
+
     };
 
     Game.prototype.move = function () {
         var asteroids = this.asteroids;
+        var stars = this.stars;
         var bullets = this.bullets;
         var game = this;
 
         this.ship.move();
         this.ship.outOfBounds([game.WIDTH(), game.HEIGHT()]);
 
-        asteroids.forEach(function (actor) {
-            actor.move();
-            actor.outOfBounds([game.WIDTH(), game.HEIGHT()]);
+        asteroids.forEach(function (asteroid) {
+            asteroid.move();
+            asteroid.outOfBounds([game.WIDTH(), game.HEIGHT()]);
+        });
+
+        stars.forEach(function (star) {
+            star.move();
+            if (star.outOfBounds([game.WIDTH(), game.HEIGHT()])) {
+                var indexOfStar = stars.indexOf(star);
+                stars.splice(indexOfStar,1);
+            };
         });
 
         bullets.forEach(function (bullet) {
@@ -111,6 +134,7 @@
         var bullets = this.bullets;
         var asteroids = this.asteroids;
         var isCollided = false;
+
         asteroids.forEach(function (asteroid) {
             bullets.forEach(function (bullet) {
                 if (bullet.isCollidedWith(asteroid)) {
@@ -153,8 +177,6 @@
         $('#loss-count').html("Losses: " + this.lossCount);
     };
 
-
-
     Game.prototype.step = function () {
         this.handleKeys();
         this.move();
@@ -166,18 +188,24 @@
     Game.prototype.handleKeys = function () {
         var ship = this.ship;
         var game = this;
+
         var acceleration = 0.2;
         if(key.isPressed("a")) ship.power([-1 * acceleration,0]);
         if(key.isPressed("w")) ship.power([0,-1 * acceleration]);
         if(key.isPressed("d")) ship.power([acceleration,0]);
         if(key.isPressed("s")) ship.power([0,acceleration]);
         if(key.isPressed("space")) game.fireBullet();
+
+
+        game.stars.forEach ( function (star) {
+            star.setSpeed(ship.vel);
+        });
+
         key("p", game.stop.bind(this));
     }
 
     Game.prototype.start = function () {
         this.timerID = window.setInterval(this.step.bind(this), 30);
-        this.handleKeys();
     };
 
     Game.prototype.stop = function () {

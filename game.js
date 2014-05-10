@@ -184,9 +184,10 @@
 
     Game.prototype.updateCounts = function () {
         $('#asteroid-count').html("Destroyed asteroids: " + this.destroyedAsteroids);
-        $('#win-count').html(" | Wins: " + this.winCount);
-        $('#loss-count').html(" | Losses: " + this.lossCount);
-        $('#accuracy').html(" | Accuracy: " + Math.ceil(100 * this.hitShots / this.totalShots));
+        $('#win-count').html("  |  Wins: " + this.winCount);
+        $('#loss-count').html("  |  Losses: " + this.lossCount);
+        $('#accuracy').html("  |  Accuracy: " + Math.ceil(100 * this.hitShots / this.totalShots) + "%");
+        $('#ship-size').html("  |  Ship Size: " + Math.floor(this.ship.radius / 4) + " parsecs");
     };
 
     Game.prototype.step = function () {

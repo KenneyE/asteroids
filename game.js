@@ -212,10 +212,11 @@
 
         game.bulletTime -= 1;
         var acceleration = 0.2;
-        if(key.isPressed("a")) ship.power([-1 * acceleration,0]);
-        if(key.isPressed("w")) ship.power([0,-1 * acceleration]);
-        if(key.isPressed("d")) ship.power([acceleration,0]);
-        if(key.isPressed("s")) ship.power([0,acceleration]);
+        if(key.isPressed("a") || key.isPressed("left")) ship.power([-1 * acceleration,0]);
+        if(key.isPressed("w") || key.isPressed("up")) ship.power([0,-1 * acceleration]);
+        if(key.isPressed("d") || key.isPressed("right")) ship.power([acceleration,0]);
+        if(key.isPressed("s") || key.isPressed("down")) ship.power([0,acceleration]);
+
         if(key.isPressed("space")) game.fireBullet();
 
         key("p", game.stop.bind(this));

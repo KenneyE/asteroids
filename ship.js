@@ -14,6 +14,7 @@
     };
   };
 
+
   Ship.BULLET_SPEED = 10;
   Ship.MAX_SPEED = 8;
   Ship.COLOR = "blue";

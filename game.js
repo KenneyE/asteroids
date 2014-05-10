@@ -8,7 +8,7 @@
 
         this.canvas = canvas;
         this.canvas.width = window.innerWidth;
-        this.canvas.height = window.innerHeight;
+        this.canvas.height = window.innerHeight - 30;
         this.canvas.margin = "auto";
 
         this.ctx = canvas.getContext("2d");

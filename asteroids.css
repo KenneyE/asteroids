@@ -11,8 +11,15 @@
     margin: 5px;
 }
 
+#instructions {
+    font-family: sans-serif;
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    color: white;
+    font-size: 20px;
+}
 
 body {
     background-color: #003;
 }
-

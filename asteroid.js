@@ -4,11 +4,12 @@
 
     var Asteroid = AST.Asteroid = function () {
         var radius = Math.floor(Math.random() * 20 + 15)
-        AST.MovingObject.call(this, radius, Asteroid.COLOR);
+        var color = (Math.floor(Math.random() * 8 + 3)) + "02"
+        AST.MovingObject.call(this, radius, color);
     };
 
     Asteroid.inherits(AST.MovingObject);
-    Asteroid.COLOR = 'red';
+    Asteroid.COLOR = '#302';
     Asteroid.MAX_SPEED = 10;
 
     Asteroid.randomAsteroid = function (dimX, dimY) {
@@ -18,6 +19,10 @@
         Math.random() * Asteroid.MAX_SPEED - Asteroid.MAX_SPEED/2];
         return randomAsteroid;
     }
+
+    Asteroid.prototype.setSpeed = function (shipVel) {
+        this.vel = [this.vel[0] -  shipVel[0] / 40 , this.vel[1] - shipVel[1]  / 40 ];
+    };
 
     Asteroid.prototype.outOfBounds = function (bounds) {
         var pos = this.pos;

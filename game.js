@@ -10,6 +10,7 @@
         this.canvas.width = window.innerWidth;
         this.canvas.height = window.innerHeight - 30;
         this.canvas.margin = "auto";
+        this.ship = new AST.Ship();
 
         this.ctx = canvas.getContext("2d");
 
@@ -27,12 +28,11 @@
     }
 
     Game.prototype.setupGame = function () {
-        this.asteroids = this.addAsteroids(10);
+        this.asteroids = this.addAsteroids(15);
         this.stars = this.addStars(300)
 
         this.isPaused = false;
 
-        this.ship = new AST.Ship();
         this.ship.pos = [canvas.width / 2, canvas.height / 2];
         this.ship.vel = [0, 0];
         this.bullets = [];
@@ -71,9 +71,7 @@
         // gc.drawImage(img, 0, 0);
 
 
-        this.asteroids.forEach(function (asteroid) {
-            asteroid.draw(gc);
-        });
+
 
         this.stars.forEach(function (star) {
             star.draw(gc);
@@ -81,6 +79,10 @@
 
         this.bullets.forEach(function (bullet) {
             bullet.draw(gc);
+        });
+
+        this.asteroids.forEach(function (asteroid) {
+            asteroid.draw(gc);
         });
 
         this.ship.draw(gc);
@@ -97,16 +99,17 @@
         this.ship.outOfBounds([game.WIDTH(), game.HEIGHT()]);
 
         asteroids.forEach(function (asteroid) {
+            asteroid.setSpeed(game.ship.vel);
+
             asteroid.move();
             asteroid.outOfBounds([game.WIDTH(), game.HEIGHT()]);
         });
 
         stars.forEach(function (star) {
+            star.setSpeed(game.ship.vel);
+
             star.move();
-            if (star.outOfBounds([game.WIDTH(), game.HEIGHT()])) {
-                var indexOfStar = stars.indexOf(star);
-                stars.splice(indexOfStar,1);
-            };
+            star.outOfBounds([game.WIDTH(), game.HEIGHT()])
         });
 
         bullets.forEach(function (bullet) {
@@ -116,6 +119,8 @@
                 bullets.splice(index,1);
             }
         });
+
+
     };
 
     Game.prototype.inWindow = function (pos) {
@@ -149,6 +154,7 @@
             if (ship.isCollidedWith(asteroid)) {
                 // alert("GAME OVER!!");
                 game.lossCount += 1;
+                game.ship.radius = 10;
                 game.stop();
                 isCollided = true;
             } else if (game.asteroids.length === 0) {
@@ -196,9 +202,6 @@
         if(key.isPressed("d")) ship.power([acceleration,0]);
         if(key.isPressed("s")) ship.power([0,acceleration]);
         if(key.isPressed("space")) game.fireBullet();
-
-
-        game.stars.forEach ( function (star) { star.setSpeed(ship.vel); });
 
         key("p", game.stop.bind(this));
     }

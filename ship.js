@@ -15,9 +15,9 @@
   };
 
 
-  Ship.BULLET_SPEED = 10;
-  Ship.MAX_SPEED = 8;
-  Ship.COLOR = "blue";
+  Ship.BULLET_SPEED = 25;
+  Ship.MAX_SPEED = 15;
+  Ship.COLOR = "#33b";
 
   Ship.prototype.fireBullet = function () {
     var ship = this;

@@ -7,7 +7,7 @@
         // var img = this.backgroundImage;
 
         this.canvas = canvas;
-        this.canvas.width = window.innerWidth;
+        this.canvas.width = window.innerWidth - 20;
         this.canvas.height = window.innerHeight - 30;
         this.canvas.margin = "auto";
         this.ship = new AST.Ship();

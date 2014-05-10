@@ -31,6 +31,7 @@
         this.asteroids = this.addAsteroids(15);
         this.stars = this.addStars(300)
 
+        this.bulletTime = 5;
         this.isPaused = false;
 
         this.ship.pos = [canvas.width / 2, canvas.height / 2];
@@ -59,8 +60,10 @@
     };
 
     Game.prototype.fireBullet = function () {
-        if (this.ship.vel[0] !== 0 || this.ship.vel[1] !== 0) {
+        console.log(this.bulletTime);
+        if ((this.ship.vel[0] !== 0 || this.ship.vel[1] !== 0) && this.bulletTime <= 0)  {
             this.bullets.push(this.ship.fireBullet());
+            this.bulletTime = 5;
         }
     };
 
@@ -196,6 +199,7 @@
         var ship = this.ship;
         var game = this;
 
+        game.bulletTime -= 1;
         var acceleration = 0.2;
         if(key.isPressed("a")) ship.power([-1 * acceleration,0]);
         if(key.isPressed("w")) ship.power([0,-1 * acceleration]);

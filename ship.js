@@ -15,7 +15,7 @@
   };
 
 
-  Ship.BULLET_SPEED = 25;
+  Ship.BULLET_SPEED = 30;
   Ship.MAX_SPEED = 15;
   Ship.COLOR = "#33b";
 

@@ -14,6 +14,7 @@
 
         this.ctx = canvas.getContext("2d");
 
+        this.highScore = 0;
         this.hitShots = 1;
         this.totalShots = 1;
         this.lossCount = 0;
@@ -158,10 +159,16 @@
                 }
             })
             if (ship.isCollidedWith(asteroid)) {
-                game.lossCount += 1;
+                if (game.highScore < Math.floor(game.ship.radius / 2) ) {
+                    game.highScore = Math.floor(game.ship.radius / 2);
+                }
                 game.ship.radius = 10;
+
+                game.lossCount += 1;
                 game.stop();
                 isCollided = true;
+
+
             } else if (game.asteroids.length === 0) {
                 game.winCount += 1;
                 game.stop();
@@ -187,7 +194,8 @@
         $('#win-count').html("  |  Wins: " + this.winCount);
         $('#loss-count').html("  |  Losses: " + this.lossCount);
         $('#accuracy').html("  |  Accuracy: " + Math.ceil(100 * this.hitShots / this.totalShots) + "%");
-        $('#ship-size').html("  |  Ship Size: " + Math.floor(this.ship.radius / 4) + " parsecs");
+        $('#ship-size').html("  |  Ship Size: " + Math.floor(this.ship.radius / 2) + " parsecs");
+        $('#high-score').html(" Your Best: " + this.highScore + " parsecs");
     };
 
     Game.prototype.step = function () {

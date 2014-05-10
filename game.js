@@ -14,6 +14,8 @@
 
         this.ctx = canvas.getContext("2d");
 
+        this.hitShots = 1;
+        this.totalShots = 1;
         this.lossCount = 0;
         this.winCount = 0;
         this.setupGame();
@@ -60,10 +62,10 @@
     };
 
     Game.prototype.fireBullet = function () {
-        console.log(this.bulletTime);
         if ((this.ship.vel[0] !== 0 || this.ship.vel[1] !== 0) && this.bulletTime <= 0)  {
             this.bullets.push(this.ship.fireBullet());
             this.bulletTime = 5;
+            this.totalShots += 1;
         }
     };
 
@@ -152,16 +154,15 @@
                     asteroids.splice(indexOfAsteroid, 1);
                     game.destroyedAsteroids += 1;
                     ship.increaseRadius();
+                    game.hitShots += 1;
                 }
             })
             if (ship.isCollidedWith(asteroid)) {
-                // alert("GAME OVER!!");
                 game.lossCount += 1;
                 game.ship.radius = 10;
                 game.stop();
                 isCollided = true;
             } else if (game.asteroids.length === 0) {
-                // alert("You Won!!");
                 game.winCount += 1;
                 game.stop();
                 isCollided = true;
@@ -183,8 +184,9 @@
 
     Game.prototype.updateCounts = function () {
         $('#asteroid-count').html("Destroyed asteroids: " + this.destroyedAsteroids);
-        $('#win-count').html("Wins: " + this.winCount);
-        $('#loss-count').html("Losses: " + this.lossCount);
+        $('#win-count').html(" | Wins: " + this.winCount);
+        $('#loss-count').html(" | Losses: " + this.lossCount);
+        $('#accuracy').html(" | Accuracy: " + Math.ceil(100 * this.hitShots / this.totalShots));
     };
 
     Game.prototype.step = function () {

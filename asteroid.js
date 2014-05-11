@@ -10,7 +10,7 @@
 
     Asteroid.inherits(AST.MovingObject);
     Asteroid.COLOR = '#302';
-    Asteroid.MAX_SPEED = 10;
+    Asteroid.MAX_SPEED = 5;
 
     Asteroid.randomAsteroid = function (dimX, dimY) {
         var randomAsteroid = new Asteroid();
@@ -21,7 +21,8 @@
     }
 
     Asteroid.prototype.setSpeed = function (shipVel) {
-        this.vel = [this.vel[0] -  shipVel[0] / 40 , this.vel[1] - shipVel[1]  / 40 ];
+        var relSpeed = 100
+        this.vel = [this.vel[0] -  shipVel[0] / relSpeed , this.vel[1] - shipVel[1]  / relSpeed ];
     };
 
     Asteroid.prototype.outOfBounds = function (bounds) {

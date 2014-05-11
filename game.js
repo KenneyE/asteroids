@@ -216,11 +216,11 @@
         var game = this;
 
         game.bulletTime -= 1;
-        var acceleration = 0.3;
-        if(key.isPressed("a") || key.isPressed("left")) ship.steer([-1 * acceleration,0]);
-        if(key.isPressed("w") || key.isPressed("up")) ship.steer([0,-1 * acceleration]);
-        if(key.isPressed("d") || key.isPressed("right")) ship.steer([acceleration,0]);
-        if(key.isPressed("s") || key.isPressed("down")) ship.steer([0,acceleration]);
+        var steerSpeed = 0.8;
+        if(key.isPressed("a") || key.isPressed("left")) ship.steer([-1 * steerSpeed,0]);
+        if(key.isPressed("w") || key.isPressed("up")) ship.steer([0,-1 * steerSpeed]);
+        if(key.isPressed("d") || key.isPressed("right")) ship.steer([steerSpeed,0]);
+        if(key.isPressed("s") || key.isPressed("down")) ship.steer([0,steerSpeed]);
 
         if(key.isPressed("space")) game.fireBullet();
 

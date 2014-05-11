@@ -21,7 +21,8 @@
     }
 
     Asteroid.prototype.setSpeed = function (shipVel) {
-        this.vel = [this.vel[0] -  shipVel[0] / 40 , this.vel[1] - shipVel[1]  / 40 ];
+        var relSpeed = 120;
+        this.vel = [this.vel[0] -  shipVel[0] / relSpeed , this.vel[1] - shipVel[1]  / relSpeed ];
     };
 
     Asteroid.prototype.outOfBounds = function (bounds) {

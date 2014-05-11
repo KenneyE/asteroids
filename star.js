@@ -31,8 +31,5 @@
         pos[1] < 0 ? pos[1] += bounds[1] : pos[1];
     };
 
-    var getSpeed = function (vel) {
-      return Math.sqrt(vel[0] * vel[0] + vel[1] * vel[1])
-    };
 
 })(this);

@@ -9,11 +9,14 @@
   Ship.inherits(AST.MovingObject);
 
   Ship.prototype.power = function (impulse) {
-    if (getSpeed([this.vel[0] + impulse[0], this.vel[1] + impulse[1]]) < Ship.MAX_SPEED) {
+    if (AST.getSpeed([this.vel[0] + impulse[0], this.vel[1] + impulse[1]]) < Ship.MAX_SPEED) {
       this.vel = [this.vel[0] + impulse[0], this.vel[1] + impulse[1]];
     };
   };
-
+  
+  Ship.prototype.steer = function (steerSpeed) {
+      this.dir = AST.normalize([this.dir[0] + steerSpeed[0], this.dir[1] + steerSpeed[1]], 1);
+  };
 
   Ship.BULLET_SPEED = 30;
   Ship.MAX_SPEED = 15;
@@ -21,10 +24,7 @@
 
   Ship.prototype.fireBullet = function () {
     var ship = this;
-    var shipSpeed = getSpeed(ship.vel);
-    var speedRatio = Ship.BULLET_SPEED / shipSpeed;
-    var bulletVel = [ship.vel[0] * speedRatio, ship.vel[1] * speedRatio];
-
+    var bulletVel = [ship.dir[0] * Ship.BULLET_SPEED, ship.dir[1] * Ship.BULLET_SPEED];
     return new AST.Bullet(bulletVel, ship.pos);
   }
 
@@ -35,10 +35,6 @@
 
       pos[1] > bounds[1] ? pos[1] -= bounds[1] : pos[1];
       pos[1] < 0 ? pos[1] += bounds[1] : pos[1];
-  };
-
-  var getSpeed = function (vel) {
-    return Math.sqrt(vel[0] * vel[0] + vel[1] * vel[1])
   };
 
   Ship.prototype.increaseRadius = function () {

@@ -69,7 +69,7 @@
     };
 
     Game.prototype.fireBullet = function () {
-        if ((this.ship.vel[0] !== 0 || this.ship.vel[1] !== 0) && this.bulletTime <= 0)  {
+        if (this.bulletTime <= 0)  {
             this.bullets.push(this.ship.fireBullet());
             this.bulletTime = Game.BULLET_TIME;
             this.totalShots += 1;
@@ -79,11 +79,6 @@
     Game.prototype.draw = function () {
         var gc = this.ctx;
         gc.clearRect(0, 0, this.WIDTH(), this.HEIGHT());
-        // var img = this.backgroundImage;
-        // gc.drawImage(img, 0, 0);
-
-
-
 
         this.stars.forEach(function (star) {
             star.draw(gc);
@@ -219,12 +214,20 @@
         var game = this;
 
         game.bulletTime -= 1;
-        var acceleration = 0.4;
-        if(key.isPressed("a") || key.isPressed("left")) ship.power([-1 * acceleration,0]);
-        if(key.isPressed("w") || key.isPressed("up")) ship.power([0,-1 * acceleration]);
-        if(key.isPressed("d") || key.isPressed("right")) ship.power([acceleration,0]);
-        if(key.isPressed("s") || key.isPressed("down")) ship.power([0,acceleration]);
 
+        var acceleration = 0.4;
+        var steerSpeed = 0.7;
+
+        if(key.isPressed("a")) ship.power([-1 * acceleration,0]);
+        if(key.isPressed("w")) ship.power([0,-1 * acceleration]);
+        if(key.isPressed("d")) ship.power([acceleration,0]);
+        if(key.isPressed("s")) ship.power([0,acceleration]);
+
+        if(key.isPressed("left")) ship.steer([-1 * steerSpeed, 0]);
+        if(key.isPressed("up")) ship.steer([0, -1 * steerSpeed]);
+        if(key.isPressed("right")) ship.steer([steerSpeed, 0]);
+        if(key.isPressed("down")) ship.steer([0, steerSpeed]);
+      
         if(key.isPressed("space")) game.fireBullet();
 
         key("p", game.stop.bind(this));

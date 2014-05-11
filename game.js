@@ -15,8 +15,8 @@
         this.ctx = canvas.getContext("2d");
 
         this.highScore = 0;
-        this.hitShots = 1;
-        this.totalShots = 1;
+        this.hitShots = 0;
+        this.totalShots = 0;
         this.lossCount = 0;
         this.winCount = 0;
         this.setupGame();
@@ -63,7 +63,8 @@
     };
 
     Game.prototype.fireBullet = function () {
-        if ((this.ship.vel[0] !== 0 || this.ship.vel[1] !== 0) && this.bulletTime <= 0)  {
+        if (this.bulletTime <= 0)  {
+            
             this.bullets.push(this.ship.fireBullet());
             this.bulletTime = 5;
             this.totalShots += 1;
@@ -193,7 +194,11 @@
         $('#asteroid-count').html("Destroyed asteroids: " + this.destroyedAsteroids);
         $('#win-count').html("  |  Wins: " + this.winCount);
         $('#loss-count').html("  |  Losses: " + this.lossCount);
-        $('#accuracy').html("  |  Accuracy: " + Math.ceil(100 * this.hitShots / this.totalShots) + "%");
+        
+        accuracy = Math.ceil(100 * this.hitShots / this.totalShots)
+        if (isNaN(accuracy)) { accuracy = 0; }
+        
+        $('#accuracy').html("  |  Accuracy: " + accuracy + "%");
         $('#ship-size').html("  |  Ship Size: " + Math.floor(this.ship.radius / 2) + " parsecs");
         $('#high-score').html(" Your Best: " + this.highScore + " parsecs");
     };
@@ -211,11 +216,11 @@
         var game = this;
 
         game.bulletTime -= 1;
-        var acceleration = 0.2;
-        if(key.isPressed("a") || key.isPressed("left")) ship.power([-1 * acceleration,0]);
-        if(key.isPressed("w") || key.isPressed("up")) ship.power([0,-1 * acceleration]);
-        if(key.isPressed("d") || key.isPressed("right")) ship.power([acceleration,0]);
-        if(key.isPressed("s") || key.isPressed("down")) ship.power([0,acceleration]);
+        var acceleration = 0.3;
+        if(key.isPressed("a") || key.isPressed("left")) ship.steer([-1 * acceleration,0]);
+        if(key.isPressed("w") || key.isPressed("up")) ship.steer([0,-1 * acceleration]);
+        if(key.isPressed("d") || key.isPressed("right")) ship.steer([acceleration,0]);
+        if(key.isPressed("s") || key.isPressed("down")) ship.steer([0,acceleration]);
 
         if(key.isPressed("space")) game.fireBullet();
 

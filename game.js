@@ -32,7 +32,7 @@
 
     Game.prototype.setupGame = function () {
         this.asteroids = this.addAsteroids(15);
-        this.stars = this.addStars(300)
+        this.stars = this.addStars(250)
 
         this.bulletTime = 5;
         this.isPaused = false;

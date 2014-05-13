@@ -47,9 +47,19 @@
         return (distance <= collideDistance)
     };
 
-    AST.distance = function (pos1, pos2) {
+    var distance = AST.distance = function (pos1, pos2) {
         xDiff = Math.abs(pos1[0] - pos2[0]);
         yDiff = Math.abs(pos1[1] - pos2[1]);
         return Math.sqrt((xDiff * xDiff) + (yDiff * yDiff));
     }
+    
+    var normalize = AST.normalize =  function (vector, normalizeTo) {
+        var ratio = normalizeTo / getSpeed(vector);
+        return ([vector[0] * ratio, vector[1] * ratio]);
+    };
+    
+    var getSpeed = AST.getSpeed = function (vel) {
+      return Math.sqrt(vel[0] * vel[0] + vel[1] * vel[1])
+    };
+    
 })(this);

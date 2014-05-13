@@ -22,6 +22,9 @@
         this.setupGame();
     };
 
+
+    Game.BULLET_TIME = 5;
+    
     Game.prototype.WIDTH = function () {
         return this.canvas.width;
     }
@@ -34,7 +37,7 @@
         this.asteroids = this.addAsteroids(15);
         this.stars = this.addStars(250)
 
-        this.bulletTime = 5;
+        this.bulletTime = Game.BULLET_TIME;
         this.isPaused = false;
 
         this.ship.pos = [canvas.width / 2, canvas.height / 2];
@@ -65,7 +68,7 @@
     Game.prototype.fireBullet = function () {
         if ((this.ship.vel[0] !== 0 || this.ship.vel[1] !== 0) && this.bulletTime <= 0)  {
             this.bullets.push(this.ship.fireBullet());
-            this.bulletTime = 5;
+            this.bulletTime = Game.BULLET_TIME;
             this.totalShots += 1;
         }
     };

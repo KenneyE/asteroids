@@ -31,5 +31,4 @@
         pos[1] < 0 ? pos[1] += bounds[1] : pos[1];
     };
 
-
 })(this);

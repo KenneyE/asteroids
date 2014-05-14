@@ -206,18 +206,18 @@
         var game = this;
 
         game.bulletTime -= 1;
-        var acceleration = 0.2;
+        var acceleration = 0.5;
         var steerSpeed = 0.7;
 
-        if(key.isPressed("left")) ship.power([-1 * acceleration,0]);
-        if(key.isPressed("up"))   ship.power([0,-1 * acceleration]);
-        if(key.isPressed("right"))ship.power([acceleration,0]);
-        if(key.isPressed("down")) ship.power([0,acceleration]);
+        if(key.isPressed("a")) ship.power([-1 * acceleration,0]);
+        if(key.isPressed("w")) ship.power([0,-1 * acceleration]);
+        if(key.isPressed("d")) ship.power([acceleration,0]);
+        if(key.isPressed("s")) ship.power([0,acceleration]);
  
-        if(key.isPressed("a")) ship.steer([-1 * steerSpeed, 0]);
-        if(key.isPressed("w")) ship.steer([0, -1 * steerSpeed]);
-        if(key.isPressed("d")) ship.steer([steerSpeed, 0]);
-        if(key.isPressed("s")) ship.steer([0, steerSpeed]);
+        if(key.isPressed("left")) ship.steer([-1 * steerSpeed, 0]);
+        if(key.isPressed("up"))   ship.steer([0, -1 * steerSpeed]);
+        if(key.isPressed("right"))ship.steer([steerSpeed, 0]);
+        if(key.isPressed("down")) ship.steer([0, steerSpeed]);
       
         if(key.isPressed("space")) game.fireBullet();
 

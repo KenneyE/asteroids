@@ -8,6 +8,4 @@
     };
 
     Bullet.inherits(AST.MovingObject);
-
-
 })(this);

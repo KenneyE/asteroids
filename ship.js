@@ -13,7 +13,10 @@
       this.vel = [this.vel[0] + impulse[0], this.vel[1] + impulse[1]];
     };
   };
-
+  
+  Ship.prototype.steer = function (steerSpeed) {
+      this.dir = AST.normalize([this.dir[0] + steerSpeed[0], this.dir[1] + steerSpeed[1]], 1);
+  };
 
   Ship.BULLET_SPEED = 30;
   Ship.MAX_SPEED = 15;
@@ -21,10 +24,8 @@
 
   Ship.prototype.fireBullet = function () {
     var ship = this;
-    // var shipSpeed = AST.getSpeed(ship.vel);
-    // var speedRatio = Ship.BULLET_SPEED / shipSpeed;
-    // var bulletVel = [ship.vel[0] * speedRatio, ship.vel[1] * speedRatio];
-    var bulletVel = AST.normalize(ship.vel, Ship.BULLET_SPEED);
+
+    var bulletVel = AST.normalize(ship.dir, Ship.BULLET_SPEED);
 
     return new AST.Bullet(bulletVel, ship.pos);
   }

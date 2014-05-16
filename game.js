@@ -214,7 +214,7 @@
         var game = this;
 
         game.bulletTime -= 1;
-        var acceleration = 0.5;
+        var acceleration = 0.4;
         if(key.isPressed("a") || key.isPressed("left")) ship.power([-1 * acceleration,0]);
         if(key.isPressed("w") || key.isPressed("up")) ship.power([0,-1 * acceleration]);
         if(key.isPressed("d") || key.isPressed("right")) ship.power([acceleration,0]);

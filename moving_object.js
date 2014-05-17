@@ -48,6 +48,7 @@
             return (distance <= collideDistance)
         };
 
+
     var distance = AST.distance = function (pos1, pos2) {
         xDiff = Math.abs(pos1[0] - pos2[0]);
         yDiff = Math.abs(pos1[1] - pos2[1]);

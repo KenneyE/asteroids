@@ -25,7 +25,8 @@
   Ship.prototype.fireBullet = function () {
     var ship = this;
 
-    var bulletVel = [ship.dir[0] * Ship.BULLET_SPEED, ship.dir[1] * Ship.BULLET_SPEED];
+
+    var bulletVel = AST.normalize(ship.dir, Ship.BULLET_SPEED);
     return new AST.Bullet(bulletVel, ship.pos);
   }
 

@@ -11,8 +11,10 @@
         this.canvas.height = window.innerHeight - 30;
         this.canvas.margin = "auto";
         this.ship = new AST.Ship();
+        this.ship.pos = [canvas.width / 2, canvas.height / 2];
 
         this.ctx = canvas.getContext("2d");
+        this.stars = this.addStars(250)
 
         this.highScore = 0;
         this.hitShots = 1;
@@ -20,6 +22,7 @@
         this.lossCount = 0;
         this.winCount = 0;
         this.setupGame();
+        this.frameCount = 0;  
     };
 
 
@@ -34,35 +37,35 @@
     }
 
     Game.prototype.setupGame = function () {
-        this.asteroids = this.addAsteroids(15);
-        this.stars = this.addStars(250)
+        // debugger
+        this.asteroids = this.addAsteroids(15, this.ship.pos);
 
         this.bulletTime = Game.BULLET_TIME;
         this.isPaused = false;
 
-        this.ship.pos = [canvas.width / 2, canvas.height / 2];
         this.ship.vel = [0, 0];
         this.bullets = [];
 
         this.timerID = null;
         this.destroyedAsteroids = 0;
+        this.start();
     };
 
-    Game.prototype.addAsteroids = function (numAsteroids) {
+    Game.prototype.addAsteroids = function (numAsteroids, pos) {
         var asteroids = [];
         for (var i = 0; i < numAsteroids; i++) {
             asteroids.push(AST.Asteroid.randomAsteroid(this.WIDTH(),
-            this.HEIGHT()));
+            this.HEIGHT(), pos));
         }
         return asteroids;
     };
 
     Game.prototype.addStars = function (numStars) {
-      var stars = [];
-      for (var i = 0; i < numStars; i++) {
-          stars.push(AST.Star.randomStar(this.WIDTH(), this.HEIGHT()));
-      }
-      return stars;
+        var stars = [];
+        for (var i = 0; i < numStars; i++) {
+            stars.push(AST.Star.randomStar(this.WIDTH(), this.HEIGHT()));
+        }
+        return stars;
     };
 
     Game.prototype.fireBullet = function () {
@@ -187,9 +190,11 @@
     };
 
     Game.prototype.restartGame = function () {
+        this.frameCount = 0;     
         window.clearInterval(this.timerID);
-        this.setupGame();
-        this.start();
+        this.timerID = window.setInterval(this.transitionSequence.bind(this), 30);
+        // this.setupGame();
+        // this.start();
     };
 
     Game.prototype.updateCounts = function () {
@@ -237,5 +242,31 @@
             this.timerID = window.setInterval(this.step.bind(this), 30);
         }
         this.paused = !this.paused;
-    }
+    };
+    
+    Game.prototype.transitionSequence = function () {
+        var stars = this.stars;
+        var game = this;
+        game.bullets = [];
+        var speed;
+        game.frameCount++;
+        
+        if (this.frameCount > 60) { 
+            window.clearInterval(game.timerID);
+            this.setupGame();
+            return;
+        } else if (this.frameCount >= 50) {
+            speed = 5 * 3 * (60 - this.frameCount); 
+        } else {
+            speed = 3 * this.frameCount;
+        }
+        
+        stars.forEach(function (star) {
+            star.setSpeed([ speed, 0]);
+            
+            star.move();
+            star.outOfBounds([game.WIDTH(), game.HEIGHT()])
+        });
+        game.draw();
+    };
 })(this);

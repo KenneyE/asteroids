@@ -12,9 +12,10 @@
     Asteroid.COLOR = '#302';
     Asteroid.MAX_SPEED = 10;
 
-    Asteroid.randomAsteroid = function (dimX, dimY) {
+    Asteroid.randomAsteroid = function (dimX, dimY, pos) {
         var randomAsteroid = new Asteroid();
-        randomAsteroid.pos = [Math.random() * dimX / 2 - (dimX/4)  , Math.random() * dimY];
+        // debugger
+        randomAsteroid.pos = [ dimX / 4 * (Math.random() * 3 - 7 / 2) + pos[0], Math.random() * dimY];
         randomAsteroid.vel = [Math.random() * Asteroid.MAX_SPEED - Asteroid.MAX_SPEED/2,
         Math.random() * Asteroid.MAX_SPEED - Asteroid.MAX_SPEED/2];
         return randomAsteroid;

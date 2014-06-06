@@ -45,8 +45,8 @@
         var distance = AST.distance(this.pos, otherObject.pos);
         var collideDistance = (this.radius + this.strokeWidth +
             otherObject.radius + otherObject.strokeWidth);
-            return (distance <= collideDistance)
-        };
+        return (distance <= collideDistance)
+    };
 
 
     var distance = AST.distance = function (pos1, pos2) {

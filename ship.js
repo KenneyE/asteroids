@@ -3,31 +3,28 @@
     var AST = root.Asteroids = (root.Asteroids || {});
 
     var Ship = AST.Ship = function () {
-        var radius = 10;
+        var radius = 15;
         AST.MovingObject.call(this, radius, Ship.COLOR);
     };
     Ship.inherits(AST.MovingObject);
 
     Ship.prototype.draw = function (c) {
         c.beginPath();
-        var xPos = this.pos[0];
-        var yPos = this.pos[1];
-        var wedgeAngle = 0.3;
-        var dirAngle = Math.atan2(this.dir[1], -this.dir[0]);
-        var xLength = this.radius * Math.cos(dirAngle + wedgeAngle)
-        var yLength = this.radius * Math.sin(dirAngle + wedgeAngle)
-
-        apex = [xPos - xLength / 2, yPos + yLength / 2];
+        // var xPos = this.pos[0];
+        // var yPos = this.pos[1];
+        // var wedgeAngle = 0.3;
+        // var dirAngle = Math.atan2(this.dir[1], -this.dir[0]);
+        // var xLength = this.radius * Math.cos(dirAngle + wedgeAngle)
+        // var yLength = this.radius * Math.sin(dirAngle + wedgeAngle)
+        // 
+        // apex = [xPos - xLength / 2, yPos + yLength / 2];
+        // 
+        var vertices = this.getVertices();
+        var apex = vertices[0];
+        
         c.moveTo(apex[0], apex[1]);
-        c.lineTo(apex[0] + xLength, 
-                 apex[1] - yLength
-             );
-        c.arc(apex[0], apex[1], this.radius, 
-             -dirAngle + wedgeAngle, 
-             -dirAngle + wedgeAngle,
-             false
-         );
-         
+        c.lineTo(vertices[1][0], vertices[1][1] );
+        c.lineTo(vertices[2][0], vertices[2][1] );
          c.lineTo(apex[0], apex[1]);
                 
         c.fillStyle = this.color;
@@ -40,6 +37,37 @@
         c.shadowColor = 'black';
         c.shadowBlur = 2;
     };
+    
+    Ship.prototype.getVertices = function () {
+        var xPos = this.pos[0];
+        var yPos = this.pos[1];
+        
+        var wedgeAngle = 0.3;
+        var dirAngle = Math.atan2(-this.dir[1], -this.dir[0]);
+        
+        var apexX = xPos - (this.radius / 2) * Math.cos(dirAngle);
+        var apexY = yPos - (this.radius / 2) * Math.sin(dirAngle);
+        
+        var x1 = apexX + this.radius * Math.cos(dirAngle + wedgeAngle);
+        var y1 = apexY + this.radius * Math.sin(dirAngle + wedgeAngle);
+        
+        var x2 = apexX + this.radius * Math.cos(dirAngle - wedgeAngle);
+        var y2 = apexY + this.radius * Math.sin(dirAngle - wedgeAngle);
+                        
+        debugger
+        return [[apexX, apexY], 
+                [x1, y1],
+                [x2, y2]
+            ];
+    
+    },
+    
+    // Ship.prototype.isCollidedWith = function (otherObject) {        
+    //     var distance = AST.distance(this.pos, otherObject.pos);
+    //     var collideDistance = (this.radius + this.strokeWidth +
+    //         otherObject.radius + otherObject.strokeWidth);
+    //     return (distance <= collideDistance)
+    // };
     
     Ship.prototype.power = function (impulse) {
         var speed = AST.getSpeed([this.vel[0] + impulse[0], 

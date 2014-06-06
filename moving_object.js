@@ -11,7 +11,7 @@
     var MovingObject = AST.MovingObject = function (radius, color) {
         this.pos = [0, 0];
         this.vel = [0, 0];
-        this.dir = [1, 0];
+        this.dir = [0, -1];
 
         this.radius = radius;
         this.color = color;

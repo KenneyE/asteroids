@@ -216,7 +216,7 @@
         game.bulletTime -= 1;
 
         var acceleration = 0.3;
-        var steerSpeed = 0.5;
+        var steerSpeed = 0.2;
 
         if(key.isPressed("a")) ship.power([-1 * acceleration,0]);
         if(key.isPressed("w")) ship.power([0,-1 * acceleration]);

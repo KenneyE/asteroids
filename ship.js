@@ -12,7 +12,7 @@
         c.beginPath();
         var xPos = this.pos[0];
         var yPos = this.pos[1];
-        var wedgeAngle = 0.4;
+        var wedgeAngle = 0.3;
         var dirAngle = Math.atan2(this.dir[1], -this.dir[0]);
         var xLength = this.radius * Math.cos(dirAngle + wedgeAngle)
         var yLength = this.radius * Math.sin(dirAngle + wedgeAngle)
@@ -29,9 +29,7 @@
          );
          
          c.lineTo(apex[0], apex[1]);
-        
-        // c.lineTo(xPos - aspectRatio * this.radius, yPos + this.radius);
-        
+                
         c.fillStyle = this.color;
         c.fill();
 
@@ -57,7 +55,7 @@
 
     Ship.BULLET_SPEED = 30;
     Ship.MAX_SPEED = 15;
-    Ship.COLOR = "#33b";
+    Ship.COLOR = "#006666";
 
     Ship.prototype.fireBullet = function () {
         var ship = this;

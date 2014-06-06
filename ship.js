@@ -3,7 +3,7 @@
     var AST = root.Asteroids = (root.Asteroids || {});
 
     var Ship = AST.Ship = function () {
-        var radius = 15;
+        var radius = 25;
         AST.MovingObject.call(this, radius, Ship.COLOR);
     };
     Ship.inherits(AST.MovingObject);

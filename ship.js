@@ -6,6 +6,7 @@
         var radius = 25;
         AST.MovingObject.call(this, radius, Ship.COLOR);
     };
+    
     Ship.inherits(AST.MovingObject);
 
     Ship.prototype.draw = function (c) {
@@ -50,7 +51,6 @@
                 [x1, y1],
                 [x2, y2]
             ];
-    
     };
     
     Ship.prototype.isCollidedWith = function (otherObject) {

@@ -19,8 +19,10 @@
     <div id="container">
         <canvas width="1" height="1"></canvas>
         <script>
-        var canvas = document.getElementsByTagName("canvas")[0];
-        var game = new Asteroids.Game(canvas);
+        $(function () {
+            var canvas = document.getElementsByTagName("canvas")[0];
+            var game = new Asteroids.Game(canvas);
+        }
         // game.start();
         </script>
 

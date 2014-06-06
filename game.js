@@ -163,7 +163,7 @@
                 if (game.highScore < Math.floor(game.ship.radius / 2) ) {
                     game.highScore = Math.floor(game.ship.radius / 2);
                 }
-                game.ship.radius = 10;
+                game.ship.radius = 25;
 
                 game.lossCount += 1;
                 game.stop();

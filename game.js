@@ -14,7 +14,7 @@
         this.ship.pos = [canvas.width / 2, canvas.height / 2];
 
         this.ctx = canvas.getContext("2d");
-        this.stars = this.addStars(250)
+        this.stars = this.addStars(200)
 
         this.highScore = 0;
         this.hitShots = 1;

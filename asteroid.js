@@ -4,7 +4,7 @@
 
     var Asteroid = AST.Asteroid = function () {
         var radius = Math.floor(Math.random() * 20 + 30)
-        var color = (Math.floor(Math.random() * 4 + 3)) + "01"
+        var color = "#" + (Math.floor(Math.random() * 4 + 3)) + "01"
         AST.MovingObject.call(this, radius, color);
     };
 
